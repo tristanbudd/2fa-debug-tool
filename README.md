@@ -2,7 +2,7 @@
 
 # 2FA Debug Tool
 
-2FA Debug Tool | Generate TOTP QR Codes & Verify Authenticator Codes
+2FA Debug Tool - A fast, modern Next.js-based tool for generating TOTP test setups with QR codes, immediate code generation, and authenticator code verification for secure development and QA testing.
 
 ![](https://img.shields.io/github/stars/tristanbudd/2fa-debug-tool.svg)
 ![](https://img.shields.io/github/watchers/tristanbudd/2fa-debug-tool.svg)
