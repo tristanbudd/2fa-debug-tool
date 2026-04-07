@@ -32,18 +32,30 @@ function OgrShieldIcon() {
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 justify-center px-4 py-0 sm:px-6 lg:px-8">
-      <div className="border-border/80 bg-background/95 w-full max-w-3xl border-x px-4 py-6 sm:px-8 sm:py-8">
+    <main className="mx-auto flex w-full max-w-5xl flex-1 justify-center px-0 py-0 min-[400px]:px-4 sm:px-6 lg:px-8">
+      <section className="flex min-h-screen w-full items-center justify-center p-6 min-[300px]:hidden">
+        <div className="border-border bg-background w-full max-w-sm border p-4">
+          <h1 className="text-base font-semibold">Screen size unsupported</h1>
+          <p className="text-muted-foreground mt-2 text-sm">
+            This tool requires at least 300px viewport width. Please rotate your device or use a
+            larger screen.
+          </p>
+        </div>
+      </section>
+
+      <div className="border-border/80 bg-background/95 hidden w-full max-w-3xl border-x-0 px-0 py-6 min-[300px]:block min-[400px]:border-x sm:px-8 sm:py-8">
         <header className="space-y-4 pb-7">
-          <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center justify-between gap-3 px-4 sm:px-0">
             <div className="flex items-center gap-2">
               <OgrShieldIcon />
-              <h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">2FA Debug Tool</h1>
+              <h1 className="text-lg font-semibold tracking-tight min-[400px]:text-2xl sm:text-3xl">
+                2FA Debug Tool
+              </h1>
             </div>
             <ThemeToggle />
           </div>
 
-          <p className="text-muted-foreground text-sm sm:text-base">
+          <p className="text-muted-foreground px-4 text-sm sm:px-0 sm:text-base">
             Generate TOTP setup data, preview QR output, and validate authenticator codes.
           </p>
         </header>
@@ -223,7 +235,7 @@ export default function Home() {
         </div>
 
         <section className="border-border/80 border-t px-4 py-7 sm:px-6 sm:py-8">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-center justify-between gap-4 max-[399px]:flex-col max-[399px]:items-start">
             <Link
               href="https://github.com/tristanbudd/2fa-debug-tool"
               target="_blank"

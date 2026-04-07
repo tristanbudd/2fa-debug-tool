@@ -7,6 +7,7 @@
 import { useEffect } from "react"
 import { Moon, Sun } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 
 type ThemeMode = "light" | "dark"
@@ -26,7 +27,11 @@ function getInitialTheme(): ThemeMode {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
 
-export function ThemeToggle() {
+type ThemeToggleProps = {
+  className?: string
+}
+
+export function ThemeToggle({ className }: ThemeToggleProps) {
   useEffect(() => {
     const initialTheme = getInitialTheme()
     document.documentElement.classList.toggle("dark", initialTheme === "dark")
@@ -47,11 +52,13 @@ export function ThemeToggle() {
       variant="outline"
       size="sm"
       aria-label="Toggle light or dark mode"
+      className={cn("gap-1.5 rounded-full", className)}
       onClick={toggleTheme}
     >
       <Sun className="size-4 dark:hidden" aria-hidden />
       <Moon className="hidden size-4 dark:block" aria-hidden />
-      Theme
+      <span className="hidden min-[400px]:inline">Theme</span>
+      <span className="sr-only">Toggle theme</span>
     </Button>
   )
 }
