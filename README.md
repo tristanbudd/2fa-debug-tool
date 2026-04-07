@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+[PLACEHOLDER BANNER IMAGE]
 
-## Getting Started
+# 2FA Debug Tool
 
-First, run the development server:
+2FA Debug Tool | Generate TOTP QR Codes & Verify Authenticator Codes
+
+![](https://img.shields.io/github/stars/tristanbudd/2fa-debug-tool.svg)
+![](https://img.shields.io/github/watchers/tristanbudd/2fa-debug-tool.svg)
+![](https://img.shields.io/github/license/tristanbudd/2fa-debug-tool.svg)
+
+![](https://img.shields.io/github/issues-raw/tristanbudd/2fa-debug-tool.svg)
+![](https://img.shields.io/github/issues-closed-raw/tristanbudd/2fa-debug-tool.svg)
+![](https://img.shields.io/github/issues-pr-raw/tristanbudd/2fa-debug-tool.svg)
+![](https://img.shields.io/github/issues-pr-closed-raw/tristanbudd/2fa-debug-tool.svg)
+
+## What This Project Is
+
+This repository is a Next.js + TypeScript app for generating, displaying, and verifying 2FA test setups.
+
+Primary use cases:
+
+- Enter a company name or prefix plus an identifier or suffix, like the label shown in authenticator apps
+- Configure the available TOTP options the target app supports
+- Generate the written setup string and QR code for scanning
+- Test a manual OTP input field and return a clear yes/no verification result
+
+## Planned Features
+
+- Company/prefix and identifier/suffix input with TOTP options configuration
+- TOTP key creation with configurable issuer, account, digits, period, and algorithm
+- otpauth URI and QR code generation for authenticator app scanning
+- Manual OTP code input field with automatic yes/no verification feedback
+
+## Installation & Project Setup
+
+1. Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/tristanbudd/2fa-debug-tool.git
+cd 2fa-debug-tool
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies (uses pnpm)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Run development server
 
-## Learn More
+```bash
+pnpm dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open http://localhost:3000 in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+pnpm dev          # Start Next.js in development mode
+pnpm build        # Build for production
+pnpm start        # Start the production server
+pnpm lint         # Run ESLint
+pnpm lint:fix     # Fix lint issues
+pnpm format       # Run Prettier to format files
+pnpm format:check # Check formatting
+pnpm typecheck    # Run TypeScript type checking
+pnpm prepare      # Set up Husky git hooks
+```
 
-## Deploy on Vercel
+## Development Notes
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- This project uses Next.js 16, React 19, TypeScript 5 and Tailwind CSS.
+- Prettier is configured with Tailwind and import sorting plugins.
+- Husky pre-commit hook runs `pnpm lint && pnpm format:check && pnpm typecheck` on commit.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Contributing
+
+If you'd like to contribute, please read `CONTRIBUTING.md` and follow these general guidelines:
+
+1. Fork the repository and create a branch for your feature/fix.
+2. Run `pnpm install` and make changes.
+3. Keep commits small and focused; add tests where appropriate.
+4. Ensure formatting/linting passes locally: `pnpm lint && pnpm format:check && pnpm typecheck`.
+5. Open a pull request describing the change and linking related issues.
+
+## Issue & PR Templates
+
+This repo contains templates under `.github/ISSUE_TEMPLATE` and `.github/PULL_REQUEST_TEMPLATE.md` to help standardize contributions.
+
+## Security
+
+If you discover a security vulnerability, please open a private issue and mark it sensitive, or follow `SECURITY.md`.
+
+## License
+
+This project is licensed under the MIT License, see the `LICENSE` file for details.
