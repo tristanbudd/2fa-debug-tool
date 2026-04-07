@@ -1,5 +1,5 @@
 <div align="center">
-  <img width="820" height="312" alt="2FA Debug Tool" src="[https://github.com/user-attachments/assets/72c5a276-f580-4bf5-a449-cf4178d6c089](https://github.com/user-attachments/assets/e81e927e-5b31-4225-a551-1f41a70128ca)" />
+  <img width="820" height="312" alt="2FA Debug Tool" src="https://github.com/user-attachments/assets/e81e927e-5b31-4225-a551-1f41a70128ca" />
 </div>
 
 # 2FA Debug Tool
