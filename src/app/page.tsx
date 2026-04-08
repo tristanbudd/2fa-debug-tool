@@ -1084,7 +1084,7 @@ export default function Home() {
             </section>
           </div>
 
-          <section className="border-border/80 border-t px-4 py-7 sm:px-6 sm:py-8">
+          <section className="border-border/80 border-t px-4 pt-7 pb-0 sm:px-6 sm:pt-8 sm:pb-0">
             <div className="flex items-center justify-between gap-4 max-[399px]:flex-col max-[399px]:items-start">
               <Link
                 href="https://github.com/tristanbudd/2fa-debug-tool"
