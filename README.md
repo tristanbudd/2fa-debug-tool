@@ -38,15 +38,11 @@ Primary use cases:
 
 ## Screenshots
 
-Home: [INSERT IMAGE HERE]
+Light Mode Preview:
+<img width="1920" height="2248" alt="Light Mode Preview" src="https://github.com/user-attachments/assets/d85973d4-6e15-442e-9e1c-b19940139295" />
 
-Provider Dropdown With Icons: [INSERT IMAGE HERE]
-
-TOTP Generate And Countdown: [INSERT IMAGE HERE]
-
-HOTP Counter Testing Controls: [INSERT IMAGE HERE]
-
-Manual Setup And Verify Sections: [INSERT IMAGE HERE]
+Dark Mode Preview:
+<img width="1920" height="2248" alt="Dark Mode Preview:" src="https://github.com/user-attachments/assets/1b37d3fe-73e5-4d5f-ae46-e51d3608fb97" />
 
 ## Installation & Project Setup
 
