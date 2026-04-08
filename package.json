@@ -1,7 +1,7 @@
 {
   "name": "2fa-debug-tool",
   "version": "0.1.0",
-  "description": "2FA Debug Tool | Generate TOTP QR Codes & Verify Authenticator Codes",
+  "description": "2FA Debug Tool | Generate And Verify OTP (TOTP/HOTP) | QR Code & Manual Output",
   "author": "Tristan Budd <https://github.com/tristanbudd>",
   "license": "MIT",
   "private": true,
@@ -16,9 +16,11 @@
   "keywords": [
     "2fa",
     "two-factor-authentication",
+    "hotp",
     "totp",
     "otp",
     "authenticator",
+    "qrcode",
     "security",
     "developer-tools",
     "debug-tool",

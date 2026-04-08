@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | 2FA Debug Tool",
   },
   description:
-    "Generate and verify TOTP and HOTP codes with QR setup output for QA, debugging, and integration testing.",
+    "2FA Debug Tool - A modern Next.js app for generating and verifying OTP setups (TOTP and HOTP) with QR support, provider-aware options, and QA-focused testing workflows.",
   keywords: [
     "2FA",
     "OTP",
@@ -55,7 +55,8 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "2FA Debug Tool",
     title: "2FA Debug Tool",
-    description: "Generate and verify TOTP and HOTP codes for development and QA testing.",
+    description:
+      "Generate and verify OTP setups (TOTP and HOTP) with QR support for development and QA testing.",
     url: "https://2fa.tristanbudd.com",
     images: [
       {
@@ -69,7 +70,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "2FA Debug Tool",
-    description: "Generate and verify TOTP and HOTP codes for development and QA testing.",
+    description:
+      "Generate and verify OTP setups (TOTP and HOTP) with QR support for development and QA testing.",
     images: ["/api/og"],
   },
   icons: {
