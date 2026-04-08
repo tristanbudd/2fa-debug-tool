@@ -28,15 +28,35 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://2fa.tristanbudd.com"),
-  title: "2FA Debug Tool",
+  title: {
+    default: "2FA Debug Tool",
+    template: "%s | 2FA Debug Tool",
+  },
   description:
-    "2FA Debug Tool - Generate TOTP QR Codes & Verify Authenticator Codes | Secure Development & QA Testing",
+    "2FA Debug Tool - A modern Next.js app for generating and verifying OTP setups (TOTP and HOTP) with QR support, provider-aware options, and QA-focused testing workflows.",
+  keywords: [
+    "2FA",
+    "OTP",
+    "TOTP",
+    "HOTP",
+    "authenticator",
+    "QR code",
+    "developer tools",
+    "QA testing",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
     type: "website",
     siteName: "2FA Debug Tool",
     title: "2FA Debug Tool",
     description:
-      "Generate TOTP QR Codes & Verify Authenticator Codes for Development and QA Testing",
+      "Generate and verify OTP setups (TOTP and HOTP) with QR support for development and QA testing.",
     url: "https://2fa.tristanbudd.com",
     images: [
       {
@@ -51,7 +71,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "2FA Debug Tool",
     description:
-      "Generate TOTP QR Codes & Verify Authenticator Codes for Development and QA Testing",
+      "Generate and verify OTP setups (TOTP and HOTP) with QR support for development and QA testing.",
     images: ["/api/og"],
   },
   icons: {
@@ -101,6 +121,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
+        <a
+          href="#main-content"
+          className="bg-background text-foreground sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:border focus:px-3 focus:py-2"
+        >
+          Skip to main content
+        </a>
         {children}
         <Analytics />
       </body>

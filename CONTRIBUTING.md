@@ -2,7 +2,7 @@
 
 Thanks for helping improve this project.
 
-This is an early-stage tool focused on generating 2FA test setups and verifying authenticator code entry in development and QA environments.
+This tool focuses on generating OTP test setups (TOTP and HOTP) and verifying authenticator code entry in development and QA environments.
 
 ## How to Contribute
 
@@ -36,8 +36,8 @@ pnpm build
 
 - Never commit real production 2FA secrets, QR payloads, or private keys.
 - Use sample or generated test data only.
-- When changing the generator, document the company/prefix field, identifier/suffix field, and any extra options you support.
-- If behavior depends on OTP timing windows, include reproduction steps and expected window values.
+- When changing the generator, document the company/prefix field, identifier/suffix field, provider profile behavior, and any extra options you support.
+- If behavior depends on OTP timing windows or HOTP counter state, include reproduction steps and expected values.
 
 ## Suggested PR Scope
 

@@ -14,6 +14,8 @@ A clear and concise description of what you want to happen.
 
 - Prefix/company label:
 - Identifier/suffix:
+- Provider profile (Google / Microsoft / Custom):
+- Mode (TOTP / HOTP):
 - Extra options needed:
 - QR code behavior:
 - OTP validation behavior:

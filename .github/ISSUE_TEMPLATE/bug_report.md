@@ -17,13 +17,15 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**2FA context (required for auth bugs)**
+**OTP context (required for auth bugs)**
 
 - Prefix/company label:
 - Identifier/suffix:
+- Provider profile (Google / Microsoft / Custom):
+- Mode (TOTP / HOTP):
 - Extra options selected:
 - QR code generated correctly? (yes/no):
-- OTP validation window/delay details:
+- OTP validation timing/counter details:
 
 **Screenshots**
 If applicable, add screenshots to help explain your problem.

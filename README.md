@@ -1,10 +1,6 @@
-<div align="center">
-  <img width="820" height="312" alt="2FA Debug Tool" src="https://github.com/user-attachments/assets/e81e927e-5b31-4225-a551-1f41a70128ca" />
-</div>
-
 # 2FA Debug Tool
 
-2FA Debug Tool - A fast, modern Next.js-based tool for generating TOTP test setups with QR codes, immediate code generation, and authenticator code verification for secure development and QA testing.
+2FA Debug Tool - A modern Next.js app for generating and verifying OTP setups (TOTP and HOTP) with QR support, provider-aware options, and QA-focused testing workflows.
 
 ![](https://img.shields.io/github/stars/tristanbudd/2fa-debug-tool.svg)
 ![](https://img.shields.io/github/watchers/tristanbudd/2fa-debug-tool.svg)
@@ -22,16 +18,35 @@ This repository is a Next.js + TypeScript app for generating, displaying, and ve
 Primary use cases:
 
 - Enter a company name or prefix plus an identifier or suffix, like the label shown in authenticator apps
-- Configure the available TOTP options the target app supports
+- Configure provider-specific or custom OTP options
 - Generate the written setup string and QR code for scanning
-- Test a manual OTP input field and return a clear yes/no verification result
+- Test manual OTP input and receive clear verification feedback
+- Validate both time-based (TOTP) and counter-based (HOTP) flows
 
-## Planned Features
+## Features
 
-- Company/prefix and identifier/suffix input with TOTP options configuration
-- TOTP key creation with configurable issuer, account, digits, period, and algorithm
-- otpauth URI and QR code generation for authenticator app scanning
-- Manual OTP code input field with automatic yes/no verification feedback
+- Provider profiles for Google Authenticator, Microsoft Authenticator, and Custom mode
+- OTP mode support for both TOTP and HOTP (with provider compatibility enforcement)
+- Configurable algorithm, digits, period, and counter (based on selected profile)
+- QR code and otpauth URI generation for scan-based setup
+- Current code preview with countdown for refreshable TOTP windows
+- HOTP testing controls including counter stepping and optional auto-advance after successful verification
+- Server-side secret masking by default with separate reveal/copy controls
+- Secret normalization (spaces/dashes ignored) for verification and current-code generation
+- Split OTP input UX with paste support and keyboard navigation
+- Theme toggle, responsive layout, and minimum-width fallback state
+
+## Screenshots
+
+Home: [INSERT IMAGE HERE]
+
+Provider Dropdown With Icons: [INSERT IMAGE HERE]
+
+TOTP Generate And Countdown: [INSERT IMAGE HERE]
+
+HOTP Counter Testing Controls: [INSERT IMAGE HERE]
+
+Manual Setup And Verify Sections: [INSERT IMAGE HERE]
 
 ## Installation & Project Setup
 
