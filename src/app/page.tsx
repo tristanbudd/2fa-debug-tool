@@ -68,6 +68,80 @@ function OgrShieldIcon() {
   )
 }
 
+function GoogleAuthenticatorIcon() {
+  return (
+    <svg aria-hidden className="size-4" viewBox="-3 0 262 262" fill="none">
+      <path
+        d="M255.878 133.451c0-10.734-.871-18.567-2.756-26.69H130.55v48.448h71.947c-1.45 12.04-9.283 30.172-26.69 42.356l-.244 1.622 38.755 30.023 2.685.268c24.659-22.774 38.875-56.282 38.875-96.027"
+        fill="#4285F4"
+      />
+      <path
+        d="M130.55 261.1c35.248 0 64.839-11.605 86.453-31.622l-41.196-31.913c-11.024 7.688-25.82 13.055-45.257 13.055-34.523 0-63.824-22.773-74.269-54.25l-1.531.13-40.298 31.187-.527 1.465C35.393 231.798 79.49 261.1 130.55 261.1"
+        fill="#34A853"
+      />
+      <path
+        d="M56.281 156.37c-2.756-8.123-4.351-16.827-4.351-25.82 0-8.994 1.595-17.697 4.206-25.82l-.073-1.73L15.26 71.312l-1.335.635C5.077 89.644 0 109.517 0 130.55s5.077 40.905 13.925 58.602l42.356-32.782"
+        fill="#FBBC05"
+      />
+      <path
+        d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
+        fill="#EB4335"
+      />
+    </svg>
+  )
+}
+
+function MicrosoftAuthenticatorIcon() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="size-4" fill="none">
+      <rect x="3" y="3" width="8" height="8" fill="#F25022" />
+      <rect x="13" y="3" width="8" height="8" fill="#7FBA00" />
+      <rect x="3" y="13" width="8" height="8" fill="#00A4EF" />
+      <rect x="13" y="13" width="8" height="8" fill="#FFB900" />
+    </svg>
+  )
+}
+
+function CustomAuthenticatorIcon() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="size-4" fill="none">
+      <path
+        d="M4 7h16M4 12h16M4 17h16"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
+      <circle cx="8" cy="7" r="1.5" fill="currentColor" />
+      <circle cx="16" cy="12" r="1.5" fill="currentColor" />
+      <circle cx="10" cy="17" r="1.5" fill="currentColor" />
+    </svg>
+  )
+}
+
+function getProviderLabel(providerValue: AuthenticatorProvider) {
+  if (providerValue === "google") {
+    return "Google Authenticator"
+  }
+
+  if (providerValue === "microsoft") {
+    return "Microsoft Authenticator"
+  }
+
+  return "Custom (advanced)"
+}
+
+function ProviderIcon({ providerValue }: { providerValue: AuthenticatorProvider }) {
+  if (providerValue === "google") {
+    return <GoogleAuthenticatorIcon />
+  }
+
+  if (providerValue === "microsoft") {
+    return <MicrosoftAuthenticatorIcon />
+  }
+
+  return <CustomAuthenticatorIcon />
+}
+
 function getMaskedSecret(secret: string) {
   if (!secret) {
     return "Not generated yet"
@@ -421,7 +495,10 @@ export default function Home() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-5xl flex-1 justify-center px-0 py-0 min-[400px]:px-4 sm:px-6 lg:px-8">
+    <main
+      id="main-content"
+      className="mx-auto flex w-full max-w-5xl flex-1 justify-center px-0 py-0 min-[400px]:px-4 sm:px-6 lg:px-8"
+    >
       {isUnsupportedWidth ? (
         <section className="flex min-h-screen w-full items-center justify-center p-6">
           <div className="border-border bg-background w-full max-w-sm border p-4">
@@ -498,13 +575,37 @@ export default function Home() {
                     value={provider}
                     onValueChange={(value) => setProvider(value as AuthenticatorProvider)}
                   >
-                    <SelectTrigger id="provider" className="w-full">
-                      <SelectValue placeholder="Select app" />
+                    <SelectTrigger
+                      id="provider"
+                      className="relative w-full pl-8"
+                      aria-label="Authenticator app"
+                    >
+                      <span className="pointer-events-none absolute top-1/2 left-2 -translate-y-1/2">
+                        <ProviderIcon providerValue={provider} />
+                      </span>
+                      <SelectValue placeholder="Select app">
+                        {getProviderLabel(provider)}
+                      </SelectValue>
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="google">Google Authenticator</SelectItem>
-                      <SelectItem value="microsoft">Microsoft Authenticator</SelectItem>
-                      <SelectItem value="custom">Custom (advanced)</SelectItem>
+                      <SelectItem value="google">
+                        <span className="inline-flex items-center gap-2">
+                          <GoogleAuthenticatorIcon />
+                          Google Authenticator
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="microsoft">
+                        <span className="inline-flex items-center gap-2">
+                          <MicrosoftAuthenticatorIcon />
+                          Microsoft Authenticator
+                        </span>
+                      </SelectItem>
+                      <SelectItem value="custom">
+                        <span className="inline-flex items-center gap-2">
+                          <CustomAuthenticatorIcon />
+                          Custom (advanced)
+                        </span>
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -704,7 +805,11 @@ export default function Home() {
                   {isGenerating ? "Generating..." : "Generate Setup Output"}
                 </Button>
 
-                {generateError ? <p className="text-sm text-red-600">{generateError}</p> : null}
+                {generateError ? (
+                  <p className="text-sm text-red-600" role="alert" aria-live="polite">
+                    {generateError}
+                  </p>
+                ) : null}
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between gap-2">
@@ -964,6 +1069,7 @@ export default function Home() {
                 </Button>
 
                 <p
+                  aria-live="polite"
                   className={
                     verifySuccess == null
                       ? "text-muted-foreground text-sm"
