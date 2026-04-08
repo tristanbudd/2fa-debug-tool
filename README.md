@@ -1,3 +1,7 @@
+<div align="center">
+  <img width="820" height="312" alt="2FA Debug Tool" src="https://github.com/user-attachments/assets/0099f32a-b0df-4e21-b7a9-1539344aff4a" />
+</div>
+
 # 2FA Debug Tool
 
 2FA Debug Tool - A modern Next.js app for generating and verifying OTP setups (TOTP and HOTP) with QR support, provider-aware options, and QA-focused testing workflows.
