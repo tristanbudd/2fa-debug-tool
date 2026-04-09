@@ -91,6 +91,12 @@ pnpm prepare      # Set up Husky git hooks
 - Prettier is configured with Tailwind and import sorting plugins.
 - Husky pre-commit hook runs `pnpm lint && pnpm format:check && pnpm typecheck` on commit.
 
+## API Documentation
+
+- Markdown reference: `docs/API.md`
+- OpenAPI 3.1 JSON: `/api/openapi.json`
+- Excludes `/api/og` (Open Graph image endpoint)
+
 ## Contributing
 
 If you'd like to contribute, please read `CONTRIBUTING.md` and follow these general guidelines:
