@@ -6,6 +6,7 @@
 import { NextResponse } from "next/server"
 import { OTP, type HashAlgorithm } from "otplib"
 
+import { buildCorsPreflightResponse, withPublicCors } from "@/lib/api-cors"
 import {
   getModeProfile,
   isAuthenticatorProvider,
@@ -24,6 +25,14 @@ type VerifyRequest = {
   mode?: string
   period?: number
   provider?: string
+}
+
+function json(body: unknown, init?: ResponseInit) {
+  return withPublicCors(NextResponse.json(body, init))
+}
+
+export async function OPTIONS() {
+  return buildCorsPreflightResponse()
 }
 
 export async function POST(request: Request) {
@@ -45,7 +54,7 @@ export async function POST(request: Request) {
     const modeProfile = getModeProfile(provider, mode)
 
     if (!modeProfile || !profile.supportedModes.includes(mode)) {
-      return NextResponse.json(
+      return json(
         { error: `${profile.label} does not support ${mode.toUpperCase()} mode.` },
         { status: 400 }
       )
@@ -57,7 +66,7 @@ export async function POST(request: Request) {
     const counter = Number(body.counter ?? 0)
 
     if (!secret || !token) {
-      return NextResponse.json({ error: "Secret and token are required." }, { status: 400 })
+      return json({ error: "Secret and token are required." }, { status: 400 })
     }
 
     const isCustomProvider = provider === "custom"
@@ -66,7 +75,7 @@ export async function POST(request: Request) {
       !isCustomProvider &&
       !modeProfile.algorithms.includes(algorithm as (typeof modeProfile.algorithms)[number])
     ) {
-      return NextResponse.json(
+      return json(
         {
           error: `${profile.label} does not support algorithm ${algorithm} for ${mode.toUpperCase()}.`,
         },
@@ -75,14 +84,14 @@ export async function POST(request: Request) {
     }
 
     if (isCustomProvider && !["SHA1", "SHA256", "SHA512"].includes(algorithm)) {
-      return NextResponse.json(
+      return json(
         { error: "Custom mode supports SHA1, SHA256, or SHA512 algorithms only." },
         { status: 400 }
       )
     }
 
     if (!isCustomProvider && !modeProfile.digits.includes(digits)) {
-      return NextResponse.json(
+      return json(
         {
           error: `${profile.label} does not support ${digits}-digit codes for ${mode.toUpperCase()}.`,
         },
@@ -91,7 +100,7 @@ export async function POST(request: Request) {
     }
 
     if (isCustomProvider && (!Number.isInteger(digits) || digits < 4 || digits > 10)) {
-      return NextResponse.json(
+      return json(
         { error: "Custom mode requires digits to be an integer between 4 and 10." },
         { status: 400 }
       )
@@ -99,30 +108,24 @@ export async function POST(request: Request) {
 
     if (mode === "totp") {
       if (!isCustomProvider && !modeProfile.periods.includes(period)) {
-        return NextResponse.json(
+        return json(
           { error: `${profile.label} does not support ${period}-second periods.` },
           { status: 400 }
         )
       }
 
       if (isCustomProvider && (!Number.isInteger(period) || period < 1 || period > 300)) {
-        return NextResponse.json(
+        return json(
           { error: "Custom mode requires period to be an integer between 1 and 300 seconds." },
           { status: 400 }
         )
       }
     } else if (!Number.isInteger(counter) || counter < 0) {
-      return NextResponse.json(
-        { error: "Counter must be a non-negative integer." },
-        { status: 400 }
-      )
+      return json({ error: "Counter must be a non-negative integer." }, { status: 400 })
     }
 
     if (!/^\d+$/.test(token) || token.length !== digits) {
-      return NextResponse.json(
-        { error: `Code must be exactly ${digits} numeric digits.` },
-        { status: 400 }
-      )
+      return json({ error: `Code must be exactly ${digits} numeric digits.` }, { status: 400 })
     }
 
     const otp = new OTP({ strategy: mode })
@@ -138,8 +141,8 @@ export async function POST(request: Request) {
       token,
     })
 
-    return NextResponse.json({ isValid: result.valid })
+    return json({ isValid: result.valid })
   } catch {
-    return NextResponse.json({ error: "Failed to verify code." }, { status: 500 })
+    return json({ error: "Failed to verify code." }, { status: 500 })
   }
 }

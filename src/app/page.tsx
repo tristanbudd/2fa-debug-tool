@@ -292,6 +292,12 @@ export default function Home() {
   }, [secret, algorithm, counter, digits, activeMode, period, provider])
 
   useEffect(() => {
+    if (!showCurrentCode) {
+      setCountdownSeconds(null)
+      setIsCurrentCodeRefreshAvailable(false)
+      return
+    }
+
     if (!secret) {
       setCurrentCode("")
       setCountdownSeconds(null)
@@ -319,7 +325,7 @@ export default function Home() {
 
     setCountdownSeconds(null)
     void refreshCurrentCode()
-  }, [secret, activeMode, period, refreshCurrentCode])
+  }, [showCurrentCode, secret, activeMode, period, refreshCurrentCode])
 
   const handleGenerate = async () => {
     if (!issuer.trim() || !account.trim()) {
@@ -837,6 +843,10 @@ export default function Home() {
                           Refreshes in {countdownSeconds}s
                         </p>
                       ) : null}
+                      <p className="text-muted-foreground text-xs">
+                        This code may look out of sync if apps started at different times, but both
+                        codes are very likely to work.
+                      </p>
                     </div>
                   ) : (
                     <p className="text-muted-foreground text-sm">
