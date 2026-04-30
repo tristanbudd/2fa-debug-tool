@@ -199,36 +199,56 @@ export default function Home() {
     : providerProfile.defaultMode
   const activeModeProfile = getModeProfile(provider, activeMode)
 
-  useEffect(() => {
-    if (activeMode !== mode) {
-      setMode(activeMode)
-    }
-  }, [activeMode, mode])
-
-  useEffect(() => {
-    if (!activeModeProfile) {
-      return
-    }
-
-    if (!activeModeProfile.algorithms.includes(algorithm)) {
-      setAlgorithm(activeModeProfile.algorithms[0])
-    }
-
-    if (!activeModeProfile.digits.includes(digits)) {
-      setDigits(activeModeProfile.digits[0])
-    }
-
-    if (!isCustomProvider && activeMode === "totp" && !activeModeProfile.periods.includes(period)) {
-      setPeriod(activeModeProfile.periods[0])
-    }
-  }, [activeMode, activeModeProfile, algorithm, digits, isCustomProvider, period])
-
-  useEffect(() => {
-    setOtpDigits(Array(digits).fill(""))
+  const handleDigitsChange = useCallback((newDigits: number) => {
+    setDigits(newDigits)
+    setOtpDigits(Array(newDigits).fill(""))
     otpInputRefs.current = []
     setVerifyMessage("")
     setVerifySuccess(null)
-  }, [digits])
+  }, [])
+
+  const handleProviderChange = useCallback(
+    (newProvider: AuthenticatorProvider) => {
+      setProvider(newProvider)
+      const newProfile = TOTP_PROFILES[newProvider]
+      const fallbackMode = newProfile.supportedModes.includes(mode) ? mode : newProfile.defaultMode
+      setMode(fallbackMode)
+
+      const modeProfile = getModeProfile(newProvider, fallbackMode)
+      if (modeProfile) {
+        if (!modeProfile.algorithms.includes(algorithm)) {
+          setAlgorithm(modeProfile.algorithms[0])
+        }
+        if (!modeProfile.digits.includes(digits)) {
+          handleDigitsChange(modeProfile.digits[0])
+        }
+        if (
+          newProvider !== "custom" &&
+          fallbackMode === "totp" &&
+          !modeProfile.periods.includes(period)
+        ) {
+          setPeriod(modeProfile.periods[0])
+        }
+      }
+    },
+    [mode, algorithm, digits, period, handleDigitsChange]
+  )
+
+  const handleModeChange = useCallback(
+    (newMode: OTPMode) => {
+      setMode(newMode)
+      const modeProfile = getModeProfile(provider, newMode)
+      if (modeProfile) {
+        if (!modeProfile.algorithms.includes(algorithm)) {
+          setAlgorithm(modeProfile.algorithms[0])
+        }
+        if (!modeProfile.digits.includes(digits)) {
+          handleDigitsChange(modeProfile.digits[0])
+        }
+      }
+    },
+    [provider, algorithm, digits, handleDigitsChange]
+  )
 
   useEffect(() => {
     const handleResize = () => {
@@ -279,9 +299,7 @@ export default function Home() {
       }
 
       setCurrentCode(payload.currentCode)
-      if (activeMode === "totp") {
-        setCountdownSeconds(payload.remainingSeconds ?? null)
-      }
+      setCountdownSeconds(activeMode === "totp" ? (payload.remainingSeconds ?? null) : null)
       setIsCurrentCodeRefreshAvailable(true)
       return true
     } catch {
@@ -292,16 +310,7 @@ export default function Home() {
   }, [secret, algorithm, counter, digits, activeMode, period, provider])
 
   useEffect(() => {
-    if (!showCurrentCode) {
-      setCountdownSeconds(null)
-      setIsCurrentCodeRefreshAvailable(false)
-      return
-    }
-
-    if (!secret) {
-      setCurrentCode("")
-      setCountdownSeconds(null)
-      setIsCurrentCodeRefreshAvailable(false)
+    if (!showCurrentCode || !secret) {
       return
     }
 
@@ -323,8 +332,9 @@ export default function Home() {
       }
     }
 
-    setCountdownSeconds(null)
-    void refreshCurrentCode()
+    window.setTimeout(() => {
+      void refreshCurrentCode()
+    }, 0)
   }, [showCurrentCode, secret, activeMode, period, refreshCurrentCode])
 
   const handleGenerate = async () => {
@@ -577,10 +587,7 @@ export default function Home() {
               <div className="grid gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="provider">Authenticator App</Label>
-                  <Select
-                    value={provider}
-                    onValueChange={(value) => setProvider(value as AuthenticatorProvider)}
-                  >
+                  <Select value={provider} onValueChange={handleProviderChange}>
                     <SelectTrigger
                       id="provider"
                       className="relative w-full pl-8"
@@ -618,7 +625,7 @@ export default function Home() {
 
                 <div className="space-y-2">
                   <Label htmlFor="mode">Key Type</Label>
-                  <Select value={activeMode} onValueChange={(value) => setMode(value as OTPMode)}>
+                  <Select value={activeMode} onValueChange={handleModeChange}>
                     <SelectTrigger
                       id="mode"
                       className="w-full"
@@ -679,14 +686,14 @@ export default function Home() {
                       onChange={(event) => {
                         const parsed = Number(event.target.value)
                         if (Number.isFinite(parsed) && parsed >= 4 && parsed <= 10) {
-                          setDigits(Math.floor(parsed))
+                          handleDigitsChange(Math.floor(parsed))
                         }
                       }}
                     />
                   ) : (
                     <Select
                       value={String(digits)}
-                      onValueChange={(value) => setDigits(Number(value))}
+                      onValueChange={(value) => handleDigitsChange(Number(value))}
                     >
                       <SelectTrigger
                         id="digits"
@@ -824,7 +831,16 @@ export default function Home() {
                       type="button"
                       variant="outline"
                       size="sm"
-                      onClick={() => setShowCurrentCode((current) => !current)}
+                      onClick={() => {
+                        setShowCurrentCode((current) => {
+                          const next = !current
+                          if (!next) {
+                            setCountdownSeconds(null)
+                            setIsCurrentCodeRefreshAvailable(false)
+                          }
+                          return next
+                        })
+                      }}
                       disabled={!secret}
                     >
                       {showCurrentCode ? "Hide Code" : "Show Code"}
